@@ -13,7 +13,7 @@
 // 
 #pragma warning disable 1591
 
-namespace Latourrette_VAT_WS {
+namespace Latourrette_VAT_WS.VAT_Number_SOAP_WS {
     using System;
     using System.Web.Services;
     using System.Diagnostics;
@@ -24,7 +24,7 @@ namespace Latourrette_VAT_WS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    //[System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     [System.Web.Services.WebServiceBindingAttribute(Name="checkVatBinding", Namespace="urn:ec.europa.eu:taxud:vies:services:checkVat")]
     public partial class checkVatService : System.Web.Services.Protocols.SoapHttpClientProtocol {
@@ -37,7 +37,7 @@ namespace Latourrette_VAT_WS {
         
         /// <remarks/>
         public checkVatService() {
-            this.Url = global::Latourrette_VAT_WS.Properties.Settings.Default.Latourrette_VAT_WS_eu_europa_ec_checkVatService;
+            this.Url = global::Latourrette_VAT_WS.Properties.Settings.Default.Latourrette_VAT_WS_VAT_Number_SOAP_WS_checkVatService;
             if ((this.IsLocalFileSystemWebService(this.Url) == true)) {
                 this.UseDefaultCredentials = true;
                 this.useDefaultCredentialsSetExplicitly = false;
@@ -246,7 +246,7 @@ namespace Latourrette_VAT_WS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.6.1586.0")]
-    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    //[System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.ComponentModel.DesignerCategoryAttribute("code")]
     public partial class checkVatCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
         

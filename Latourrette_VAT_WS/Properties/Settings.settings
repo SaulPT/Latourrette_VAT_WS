@@ -2,7 +2,7 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Latourrette_VAT_WS.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="Latourrette_VAT_WS_eu_europa_ec_checkVatService" Type="(Web Service URL)" Scope="Application">
+    <Setting Name="Latourrette_VAT_WS_VAT_Number_SOAP_WS_checkVatService" Type="(Web Service URL)" Scope="Application">
       <Value Profile="(Default)">http://ec.europa.eu/taxation_customs/vies/services/checkVatService</Value>
     </Setting>
   </Settings>

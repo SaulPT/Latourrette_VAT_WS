@@ -27,9 +27,9 @@ namespace Latourrette_VAT_WS.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
         [global::System.Configuration.DefaultSettingValueAttribute("http://ec.europa.eu/taxation_customs/vies/services/checkVatService")]
-        public string Latourrette_VAT_WS_eu_europa_ec_checkVatService {
+        public string Latourrette_VAT_WS_VAT_Number_SOAP_WS_checkVatService {
             get {
-                return ((string)(this["Latourrette_VAT_WS_eu_europa_ec_checkVatService"]));
+                return ((string)(this["Latourrette_VAT_WS_VAT_Number_SOAP_WS_checkVatService"]));
             }
         }
     }
