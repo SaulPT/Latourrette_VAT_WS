@@ -46,11 +46,11 @@ namespace Latourrette_VAT_WS
             if (tabControl.SelectedIndex == 0)
             {
                 //SEARCH A SINGLE VAT NUMBER
-                if (button_send_cancel.Text == "Send")
+                if (button_send_cancel.Text == "Verify")
                 {
                     loading_gui(true,false);
-                    country_code = textBox_input_single_vat.Text.Substring(0, 2);
-                    vat_number = textBox_input_single_vat.Text.Remove(0, 2);
+                    country_code = textBox_input_single_vat.Text.Trim().Substring(0, 2);
+                    vat_number = textBox_input_single_vat.Text.Trim().Remove(0, 2);
                     single_vat_userstate = new Random().Next();
 
                     vat_ws.checkVatAsync(country_code, vat_number, single_vat_userstate);
@@ -65,23 +65,20 @@ namespace Latourrette_VAT_WS
             else
             {
                 //SEARCH MULTIPLE VAT NUMBERS
-                if (button_send_cancel.Text == "Send")
+                if (button_send_cancel.Text == "Export")
                 {
                     loading_gui(true,true);
                     multi_vat_infos = new List<string>();
                     multi_vat_userstates = new List<object>();
                     Random random=new Random();
-                    foreach (string line in textBox_input_multi_val.Lines)
+                    foreach (string line in textBox_input_multi_vat.Lines)
                     {
-                        if (line.Trim() != "")
-                        {
-                            country_code = line.Substring(0, 2);
-                            vat_number = line.Remove(0, 2);
-                            object userstate = random.Next();
-                            multi_vat_userstates.Add(userstate);
+                        country_code = line.Trim().Substring(0, 2);
+                        vat_number = line.Trim().Remove(0, 2);
+                        object userstate = random.Next();
+                        multi_vat_userstates.Add(userstate);
 
-                            vat_ws.checkVatAsync(country_code, vat_number, userstate);
-                        }
+                        vat_ws.checkVatAsync(country_code, vat_number, userstate);
                     }
                     
                 }
@@ -124,10 +121,7 @@ namespace Latourrette_VAT_WS
                 else
                 {
                     //JOIN INFORMATION RECEIVED TO THE LIST OF THE MULTIPLE VAT NUMBERS REQUESTED
-                    if (e.Error == null)
-                    {
-                        multi_vat_infos.Add(e.result_message());
-                    }
+                    multi_vat_infos.Add(e.result_message());
                     multi_vat_userstates.Remove(e.UserState);
                     
                     if (multi_vat_userstates.Count == 0)
@@ -163,7 +157,7 @@ namespace Latourrette_VAT_WS
             {
                 if (multi)
                 {
-                    textBox_input_multi_val.Enabled = false;
+                    textBox_input_multi_vat.Enabled = false;
                 }
                 else
                 {
@@ -177,20 +171,21 @@ namespace Latourrette_VAT_WS
             {
                 if (multi)
                 {
-                    textBox_input_multi_val.Enabled = true;
+                    textBox_input_multi_vat.Enabled = true;
+                    button_send_cancel.Text = "Export";
                 }
                 else
                 {
                     textBox_input_single_vat.Enabled = true;
+                    button_send_cancel.Text = "Verify";
                 }
-                button_send_cancel.Text = "Send";
                 toolStripStatusLabel.Text = "Ready";
                 toolStripProgressBar.Visible = false;
             }
         }
 
         
-        //TOGGLE BUTTON WITH "ENTER" KEY
+        //TOGGLE BUTTON ACTION WITH "ENTER" KEY
         private void textBox_input_single_vat_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -200,10 +195,25 @@ namespace Latourrette_VAT_WS
         }
 
         
-        //SET THE BUTTON ENABLED STATE BASED OF EMPTY TEXTBOX
+        //SET THE BUTTON ENABLED/DISABLED BASED OF VALID INPUT TEXT
         private bool check_empty_vat_text(bool multi)
         {
-            return !((!multi && textBox_input_single_vat.Text.Trim() == "") || (multi && textBox_input_multi_val.Text.Trim() == ""));
+            if (multi)
+            {
+                bool multi_lines_check = true;
+                foreach(string line in textBox_input_multi_vat.Lines)
+                {
+                    if (line.Trim().Length < 3 && line.Trim()!="")
+                    {
+                        multi_lines_check = false;
+                    }
+                }
+                return multi_lines_check;
+            }
+            else
+            {
+                return (textBox_input_single_vat.Text.Trim().Length > 2);
+            }
         }
 
         private void textBox_input_single_vat_TextChanged(object sender, EventArgs e)
@@ -218,7 +228,7 @@ namespace Latourrette_VAT_WS
         //
 
 
-        //SET THE GUI TO SHOW WITCH TAB IS LOADING REQUEST
+        //SET THE GUI TO ADAPT TO EACH TAB
         private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (tabControl.SelectedIndex == 0)
@@ -246,8 +256,8 @@ namespace Latourrette_VAT_WS
                     loading_gui(true, true);
                 }
                 button_send_cancel.Enabled = check_empty_vat_text(true);
-                textBox_input_multi_val.Focus();
-                textBox_input_multi_val.SelectAll();
+                textBox_input_multi_vat.Focus();
+                textBox_input_multi_vat.SelectAll();
             }
         }
         
