@@ -73,12 +73,15 @@ namespace Latourrette_VAT_WS
                     Random random=new Random();
                     foreach (string line in textBox_input_multi_vat.Lines)
                     {
-                        country_code = line.Trim().Substring(0, 2);
-                        vat_number = line.Trim().Remove(0, 2);
-                        object userstate = random.Next();
-                        multi_vat_userstates.Add(userstate);
+                        if (line.Trim().Length > 2)
+                        {
+                            country_code = line.Trim().Substring(0, 2);
+                            vat_number = line.Trim().Remove(0, 2);
+                            object userstate = random.Next();
+                            multi_vat_userstates.Add(userstate);
 
-                        vat_ws.checkVatAsync(country_code, vat_number, userstate);
+                            vat_ws.checkVatAsync(country_code, vat_number, userstate);
+                        }
                     }
                     
                 }
@@ -196,19 +199,28 @@ namespace Latourrette_VAT_WS
 
         
         //SET THE BUTTON ENABLED/DISABLED BASED OF VALID INPUT TEXT
-        private bool check_empty_vat_text(bool multi)
+        private bool check_valid_vat_text(bool multi)
         {
             if (multi)
             {
-                bool multi_lines_check = true;
-                foreach(string line in textBox_input_multi_vat.Lines)
+                if (textBox_input_multi_vat.Text.Trim()=="")
                 {
-                    if (line.Trim().Length < 3 && line.Trim()!="")
-                    {
-                        multi_lines_check = false;
-                    }
+                    return false;
                 }
-                return multi_lines_check;
+                else
+                {
+                    bool multi_lines_check = true;
+                    foreach (string line in textBox_input_multi_vat.Lines)
+                    {
+                        if (line.Trim().Length < 3 && line.Trim() != "")
+                        {
+                            multi_lines_check = false;
+                        }
+
+                    }
+                    return multi_lines_check;
+                }
+                
             }
             else
             {
@@ -218,12 +230,12 @@ namespace Latourrette_VAT_WS
 
         private void textBox_input_single_vat_TextChanged(object sender, EventArgs e)
         {
-            button_send_cancel.Enabled = check_empty_vat_text(false);
+            button_send_cancel.Enabled = check_valid_vat_text(false);
         }
 
         private void textBox_input_multi_val_TextChanged(object sender, EventArgs e)
         {
-            button_send_cancel.Enabled = check_empty_vat_text(true);
+            button_send_cancel.Enabled = check_valid_vat_text(true);
         }
         //
 
@@ -241,7 +253,7 @@ namespace Latourrette_VAT_WS
                 {
                     loading_gui(true, false);
                 }
-                button_send_cancel.Enabled = check_empty_vat_text(false);
+                button_send_cancel.Enabled = check_valid_vat_text(false);
                 textBox_input_single_vat.Focus();
                 textBox_input_single_vat.SelectAll();
             }
@@ -255,7 +267,7 @@ namespace Latourrette_VAT_WS
                 {
                     loading_gui(true, true);
                 }
-                button_send_cancel.Enabled = check_empty_vat_text(true);
+                button_send_cancel.Enabled = check_valid_vat_text(true);
                 textBox_input_multi_vat.Focus();
                 textBox_input_multi_vat.SelectAll();
             }
